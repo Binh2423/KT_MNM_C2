@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../models/HocPhan.php';
+require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../models/HocPhan.php";
 
 class HocPhanController {
     private $model;
@@ -8,34 +9,30 @@ class HocPhanController {
         $this->model = new HocPhan();
     }
 
+    // ✅ Lấy danh sách học phần
     public function index() {
-        $hocphans = $this->model->getAll();
-    if (!$hocphans) {
-        $hocphans = []; // Gán mảng rỗng nếu không có dữ liệu
-    }
-    include __DIR__ . '/../views/hocphan/index.php';
+        return $this->model->getAll();
     }
 
-    public function create() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->model->create($_POST["ma_hocphan"], $_POST["ten_hocphan"], $_POST["so_tinchi"]);
-            header("Location: index.php");
-        }
-        include __DIR__ . '/../views/hocphan/create.php';
+    // ✅ Lấy thông tin học phần theo mã
+    public function getHocPhan($maHocPhan) {
+        return $this->model->getById($maHocPhan);
     }
 
-    public function edit($id) {
-        $hocphan = $this->model->getById($id);
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->model->update($id, $_POST["ma_hocphan"], $_POST["ten_hocphan"], $_POST["so_tinchi"]);
-            header("Location: index.php");
-        }
-        include __DIR__ . '/../views/hocphan/edit.php';
+    // ✅ Thêm học phần
+    public function addHocPhan($maHocPhan, $tenHocPhan, $soTinChi) {
+        return $this->model->insert($maHocPhan, $tenHocPhan, $soTinChi);
     }
 
-    public function delete($id) {
-        $this->model->delete($id);
-        header("Location: index.php");
+    // ✅ Cập nhật học phần
+    public function updateHocPhan($maHocPhan, $tenHocPhan, $soTinChi) {
+        return $this->model->update($maHocPhan, $tenHocPhan, $soTinChi);
+    }
+
+    // ✅ Xóa học phần
+    public function deleteHocPhan($maHocPhan) {
+        return $this->model->delete($maHocPhan);
     }
 }
+
 ?>

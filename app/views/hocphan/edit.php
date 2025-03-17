@@ -1,14 +1,18 @@
-<h2>Chỉnh sửa Học Phần</h2>
-<form method="POST">
-    <label>Mã Học Phần:</label>
-    <input type="text" name="ma_hocphan" value="<?= $hocphan["ma_hocphan"] ?>" required><br>
+<?php
+require_once __DIR__ . "/../../controllers/HocPhanController.php";
+$controller = new HocPhanController();
 
-    <label>Tên Học Phần:</label>
-    <input type="text" name="ten_hocphan" value="<?= $hocphan["ten_hocphan"] ?>" required><br>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $controller->updateHocPhan($_POST['maHocPhan'], $_POST['tenHocPhan'], $_POST['soTinChi']);
+    header("Location: index.php");
+}
 
-    <label>Số Tín Chỉ:</label>
-    <input type="number" name="so_tinchi" value="<?= $hocphan["so_tinchi"] ?>" required><br>
+$hocPhan = $controller->getHocPhan($_GET['id']);
+?>
 
-    <button type="submit">Lưu</button>
+<form method="post">
+    <input type="hidden" name="maHocPhan" value="<?= $hocPhan['MaHocPhan'] ?>">
+    Tên Học Phần: <input type="text" name="tenHocPhan" value="<?= $hocPhan['TenHocPhan'] ?>" required><br>
+    Số Tín Chỉ: <input type="number" name="soTinChi" value="<?= $hocPhan['SoTinChi'] ?>" required><br>
+    <button type="submit">Cập nhật</button>
 </form>
-<a href="index.php?action=index">Quay lại</a>

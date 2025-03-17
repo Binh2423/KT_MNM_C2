@@ -1,57 +1,56 @@
 <?php
-require_once __DIR__ . "/../../config/Database.php";
+require_once __DIR__ . "/../../config/database.php";
 
 class HocPhan {
     private $conn;
-    private $table = "hocphan";
 
     public function __construct() {
         $database = new Database();
         $this->conn = $database->connect();
     }
 
+    // ✅ Lấy danh sách học phần
     public function getAll() {
-        try {
-            $query = "SELECT * FROM " . $this->table;
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            die("Lỗi truy vấn: " . $e->getMessage()); // Debug lỗi SQL
-        }
+        $query = "SELECT * FROM hocphan";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
+    // ✅ Lấy học phần theo mã
+    public function getById($maHocPhan) {
+        $query = "SELECT * FROM hocphan WHERE MaHocPhan = :maHocPhan";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":maHocPhan", $maHocPhan);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($ma_hocphan, $ten_hocphan, $so_tinchi) {
-        $query = "INSERT INTO " . $this->table . " (ma_hocphan, ten_hocphan, so_tinchi) VALUES (:ma_hocphan, :ten_hocphan, :so_tinchi)";
+    // ✅ Thêm học phần
+    public function insert($maHocPhan, $tenHocPhan, $soTinChi) {
+        $query = "INSERT INTO hocphan (MaHocPhan, TenHocPhan, SoTinChi) VALUES (:maHocPhan, :tenHocPhan, :soTinChi)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":ma_hocphan", $ma_hocphan);
-        $stmt->bindParam(":ten_hocphan", $ten_hocphan);
-        $stmt->bindParam(":so_tinchi", $so_tinchi);
+        $stmt->bindParam(":maHocPhan", $maHocPhan);
+        $stmt->bindParam(":tenHocPhan", $tenHocPhan);
+        $stmt->bindParam(":soTinChi", $soTinChi);
         return $stmt->execute();
     }
 
-    public function update($id, $ma_hocphan, $ten_hocphan, $so_tinchi) {
-        $query = "UPDATE " . $this->table . " SET ma_hocphan = :ma_hocphan, ten_hocphan = :ten_hocphan, so_tinchi = :so_tinchi WHERE id = :id";
+    // ✅ Cập nhật học phần
+    public function update($maHocPhan, $tenHocPhan, $soTinChi) {
+        $query = "UPDATE hocphan SET TenHocPhan = :tenHocPhan, SoTinChi = :soTinChi WHERE MaHocPhan = :maHocPhan";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":ma_hocphan", $ma_hocphan);
-        $stmt->bindParam(":ten_hocphan", $ten_hocphan);
-        $stmt->bindParam(":so_tinchi", $so_tinchi);
+        $stmt->bindParam(":maHocPhan", $maHocPhan);
+        $stmt->bindParam(":tenHocPhan", $tenHocPhan);
+        $stmt->bindParam(":soTinChi", $soTinChi);
         return $stmt->execute();
     }
 
-    public function delete($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
+    // ✅ Xóa học phần
+    public function delete($maHocPhan) {
+        $query = "DELETE FROM hocphan WHERE MaHocPhan = :maHocPhan";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":maHocPhan", $maHocPhan);
         return $stmt->execute();
     }
 }

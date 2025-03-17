@@ -1,14 +1,16 @@
-<h2>Thêm Học Phần</h2>
-<form method="POST">
-    <label>Mã Học Phần:</label>
-    <input type="text" name="ma_hocphan" required><br>
+<?php
+require_once __DIR__ . "/../../controllers/HocPhanController.php";
 
-    <label>Tên Học Phần:</label>
-    <input type="text" name="ten_hocphan" required><br>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $controller = new HocPhanController();
+    $controller->addHocPhan($_POST['maHocPhan'], $_POST['tenHocPhan'], $_POST['soTinChi']);
+    header("Location: index.php");
+}
+?>
 
-    <label>Số Tín Chỉ:</label>
-    <input type="number" name="so_tinchi" required><br>
-
-    <button type="submit">Lưu</button>
+<form method="post">
+    Mã Học Phần: <input type="text" name="maHocPhan" required><br>
+    Tên Học Phần: <input type="text" name="tenHocPhan" required><br>
+    Số Tín Chỉ: <input type="number" name="soTinChi" required><br>
+    <button type="submit">Thêm</button>
 </form>
-<a href="index.php?action=index">Quay lại</a>
