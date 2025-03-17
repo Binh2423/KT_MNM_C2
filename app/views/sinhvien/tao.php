@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $controller->addSinhVien($hoTen, $gioiTinh, $ngaySinh, $hinh, $maNganh);
     header("Location: index.php");
     exit();
+
 }
 ?>
 
@@ -41,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <h2 class="mt-4">Thêm Sinh Viên</h2>
-        <form action="create.php" method="post" enctype="multipart/form-data">
+        <form action="tao.php" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label">Họ Tên</label>
                 <input type="text" name="HoTen" class="form-control" required>
